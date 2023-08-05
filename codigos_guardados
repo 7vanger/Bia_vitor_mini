@@ -1,0 +1,86 @@
+void	remove_section(t_token *token)
+{
+	int	index;
+
+	index = 0;
+	if (token->id.path[ft_strlen(token->id.path) - 1] == '/')
+		index = 1;
+	while (token->id.path[ft_strlen(token->id.path) - index -1] != '/')
+		index++;
+	index = ft_strlen(token->id.path) - index;
+	free(token->id.path);
+	token->id.path = ft_substr(token->id.path, 0, index);
+	token->id.tmp += 2;
+}
+
+void	add_section(t_token *token)
+{
+	int		i;
+	char	*buff;
+
+	i = cut_until_char(token->id.tmp, '/');
+	buff = ft_substr(token->id.tmp, 0, i);
+	if (buff[0] == '/' && token->id.path[ft_strlen(token->id.path) - 1] == '/')
+	{
+		free(buff);
+		token->id.tmp++;
+		return ;
+	}
+	token->id.path = 
+	token->id.tmp += i;
+	free(buff);
+}
+
+void	process_Input_Token(t_token *token, int i)
+{
+	char *sub;
+
+	if (delimeter_token(i, token->input) > 0)
+	{
+		sub = ft_substr(token->input, 0, i);
+		token->id.print = paste_char(token->id.print, sub);
+		free(sub);
+	}
+	else if (token->input && i == 0 && token->input[i] == ' ')
+	{
+		while (*token->input == ' ' && !ft_isalnum(token->input[1]))
+			token->input++;
+		if (scan_for_word(token->input) && token->id.print)
+			token->id.print = paste_char(token->id.print, " ");
+		token->input = cut_space(token->input);
+	}
+	else
+		token->id.print = ft_calloc(1, sizeof(char));
+	while (*token->input && i--)
+		token->input++;
+}
+
+int	cut_until_char(char *str, char c)
+{
+	char	*ptr;
+
+	ptr = ft_strchr(str, c);
+	if (ptr != NULL)
+		return (int)(ptr - str);
+	else
+		return ft_strlen(str);
+}
+
+char *add_content(char *content, char *add, int position, char *var)
+{
+    int len_content = strlen(content);
+    int len_add = strlen(add);
+    int len_var = strlen(var);
+    int len_mod = len_content + len_add + len_var + 1;
+
+    char *mod = calloc(len_mod, sizeof(char));
+    
+    strncpy(mod, content, position);
+    strcat(mod, add);
+    strcat(mod, var);
+    strcat(mod, content + position);
+
+    free(content);
+
+    return mod;
+}
