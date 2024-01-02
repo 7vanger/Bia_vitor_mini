@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static char	*print_var(char *str)
+static char	*print_var(char *str, t_env e_env)
 {
 	char	*tmp;
 	int		i;
@@ -20,14 +20,14 @@ static char	*print_var(char *str)
 	i = 0;
 	if (ft_strncmp(str, "?=", 2) == 0)
 	{
-		tmp = ft_itoa(g_env.retval);
+		tmp = ft_itoa(e_env.retval);
 		free(str);
 		return (tmp);
 	}
-	while (g_env.env[i] && ft_strncmp(g_env.env[i], str, ft_strlen(str)) != 0)
+	while (e_env.env[i] && ft_strncmp(e_env.env[i], str, ft_strlen(str)) != 0)
 		i++;
-	if (g_env.env[i] != NULL)
-		tmp = ft_substr(g_env.env[i], ft_strlen(str), ft_strlen(g_env.env[i]));
+	if (e_env.env[i] != NULL)
+		tmp = ft_substr(e_env.env[i], ft_strlen(str), ft_strlen(e_env.env[i]));
 	else
 		tmp = ft_calloc(1, sizeof(char));
 	free (str);
@@ -82,7 +82,7 @@ static char	*remove_token(char *str, int i, int m)
 	return (rec);
 }
 
-static char	*find_expand(char *str, int i)
+static char	*find_expand(char *str, int i, t_env e_env)
 {
 	int		m;
 	char	*rec;
@@ -100,7 +100,7 @@ static char	*find_expand(char *str, int i)
 		}
 	}
 	rec = ft_substr(str, i, m - i);
-	key = print_var(retire_sign(rec, 1));
+	key = print_var(retire_sign(rec, 1), e_env);
 	rec = ft_substr(str, i, m - i);
 	if (!*key)
 		str = remove_token(str, i, m);
@@ -111,7 +111,7 @@ static char	*find_expand(char *str, int i)
 	return (str);
 }
 
-char	*expand(char *str, int i)
+char	*expand(char *str, int i, t_env e_env)
 {
 	while (str[i] != '\0')
 	{
@@ -125,7 +125,7 @@ char	*expand(char *str, int i)
 				break ;
 			if (str[i] == '$' && str[i + 1] == 34)
 				break ;
-			str = find_expand(str, i);
+			str = find_expand(str, i, e_env);
 		}
 		if (str[i] == 39)
 		{

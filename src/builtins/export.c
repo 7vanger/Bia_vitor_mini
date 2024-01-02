@@ -12,37 +12,37 @@
 
 #include "minishell.h"
 
-char	*new_env(char *str, int i)
+char	*new_env(char *str, int i, t_env e_env)
 {
 	char	*tmp;
 
-	if (g_env.env[i])
-		free(g_env.env[i]);
+	if (e_env.env[i])
+		free(e_env.env[i]);
 	tmp = ft_strdup(str);
 	return (tmp);
 }
 
-char	**export_env(char *str)
+char	**export_env(char *str, t_env e_env)
 {
 	char	**var;
 	int		i;
 	int		j;
 
 	i = 0;
-	while (g_env.env[i] != NULL)
+	while (e_env.env[i] != NULL)
 		i++;
 	j = i;
 	var = ft_calloc(i + 2, sizeof(char *));
 	i = 0;
-	while (g_env.env[i] != NULL && i < j)
+	while (e_env.env[i] != NULL && i < j)
 	{
-		var[i] = ft_strdup(g_env.env[i]);
-		free(g_env.env[i]);
+		var[i] = ft_strdup(e_env.env[i]);
+		free(e_env.env[i]);
 		i++;
 	}
 	var[i] = ft_strdup(str);
 	var[i + 1] = NULL;
-	free(g_env.env);
+	free(e_env.env);
 	return (var);
 }
 
@@ -86,7 +86,7 @@ int	identchcker(char *str)
 	return (0);
 }
 
-int	execute_export(char *str)
+int	execute_export(char *str, t_env e_env)
 {
 	char	**var;
 	int		i;
@@ -99,12 +99,12 @@ int	execute_export(char *str)
 	var = ft_split(str, ' ');
 	while (var[j] != NULL)
 	{
-		while (g_env.env[i] && export_comp(var[j], g_env.env[i]) != 0)
+		while (e_env.env[i] && export_comp(var[j], e_env.env[i]) != 0)
 			i++;
-		if (g_env.env[i] == NULL)
-			g_env.env = export_env(var[j]);
+		if (e_env.env[i] == NULL)
+			e_env.env = export_env(var[j], e_env);
 		else
-			g_env.env[i] = new_env(var[j], i);
+			e_env.env[i] = new_env(var[j], i, e_env);
 		j++;
 	}
 	free_pointers(var);

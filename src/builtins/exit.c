@@ -33,7 +33,7 @@ static int	isalnum_base(char *str)
 	return (0);
 }
 
-int	execute_exit(t_token *token, char *status)
+int	execute_exit(t_token *token, char *status, t_env e_env)
 {
 	int	i;
 
@@ -50,7 +50,7 @@ int	execute_exit(t_token *token, char *status)
 	close(token->fd[1]);
 	close(token->fd[0]);
 	free_buff(token);
-	free_env();
-	free(g_env.pwd);
+	free_env(e_env);
+	free(e_env.pwd);
 	exit(i);
 }

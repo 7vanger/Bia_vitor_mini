@@ -21,7 +21,6 @@ void	add_section(t_token *token)
 	if (i == 0)
 		i = 1;
 	buff = ft_substr(token->id.tmp, 0, i);
-	printf("consigo aqui\n");
 	if (buff[0] == '/' && token->id.path[ft_strlen(token->id.path) - 1] == '/')
 	{
 		free(buff);
@@ -29,7 +28,6 @@ void	add_section(t_token *token)
 		return ;
 	}
 	token->id.path = paste_char(token->id.path, buff);
-	printf ("outra parte aqui id.path: %s\n", token->id.path);
 	while (i--)
 		token->id.tmp++;
 	if (buff != NULL)
@@ -56,7 +54,7 @@ void	remove_section(t_token *token)
 	free(tmp);
 }
 
-int	execute_cd(t_id id)
+int	execute_cd(t_id id, t_env e_env)
 {
 	char	*pwd;
 	char	*oldpwd;
@@ -66,20 +64,20 @@ int	execute_cd(t_id id)
 		write(2, "minishell: No such file or directory\n", 38);
 		return (2);
 	}
-	pwd = ft_strjoin("OLDPWD=", g_env.pwd);
-	execute_export(pwd);
-	free(g_env.pwd);
+	pwd = ft_strjoin("OLDPWD=", e_env.pwd);
+	execute_export(pwd, e_env);
+	free(e_env.pwd);
 	if (id.path[ft_strlen(id.path) - 1] == '/')
 	{
 		oldpwd = ft_substr(id.path, 0, ft_strlen(id.path) - 1);
-		g_env.pwd = ft_strdup(oldpwd);
+		e_env.pwd = ft_strdup(oldpwd);
 		free(oldpwd);
 	}
 	else
-		g_env.pwd = ft_strdup(id.path);
+		e_env.pwd = ft_strdup(id.path);
 	free(pwd);
-	pwd = ft_strjoin("PWD=", g_env.pwd);
-	execute_export(pwd);
+	pwd = ft_strjoin("PWD=", e_env.pwd);
+	execute_export(pwd, e_env);
 	free(pwd);
 	return (errno);
 }

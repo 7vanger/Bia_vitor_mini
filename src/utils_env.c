@@ -29,20 +29,20 @@ char	**set_env_2(char **env)
 	return (buff);
 }
 
-char	*set(int num)
+char	*set(int num, t_env e_env)
 {
 	int	i;
 
 	i = 0;
 	if (num == 1)
 	{
-		while (g_env.env[i] && ft_strncmp(g_env.env[i], "PWD=", 4) != 0)
+		while (e_env.env[i] && ft_strncmp(e_env.env[i], "PWD=", 4) != 0)
 			i++;
 	}
 	else if (num == 2)
 	{
-		while (g_env.env[i] && ft_strncmp(g_env.env[i], "HOME=", 5) != 0)
+		while (e_env.env[i] && ft_strncmp(e_env.env[i], "HOME=", 5) != 0)
 			i++;
 	}
-	return (g_env.env[i]);
+	return (e_env.env[i]);
 }

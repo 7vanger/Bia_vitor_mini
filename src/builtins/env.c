@@ -12,16 +12,16 @@
 
 #include "minishell.h"
 
-int	execute_env(void)
+int	execute_env(t_env e_env)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = -1;
-	while (g_env.env[i] != NULL)
+	while (e_env.env[i] != NULL)
 		i++;
 	while (++j < i)
-		printf ("%s\n", g_env.env[j]);
+		printf ("%s\n", e_env.env[j]);
 	return (errno);
 }

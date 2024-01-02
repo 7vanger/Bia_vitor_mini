@@ -34,24 +34,24 @@ int	unset_comp(const char *str, char *var)
 	return (1);
 }
 
-void	free_env(void)
+void	free_env(t_env e_env)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	while (g_env.env[i] != NULL)
+	while (e_env.env[i] != NULL)
 		i++;
 	while (j < i)
 	{
-		free(g_env.env[j]);
+		free(e_env.env[j]);
 		j++;
 	}
-	free(g_env.env);
+	free(e_env.env);
 }
 
-char	**env_unset(char *str)
+char	**env_unset(char *str, t_env e_env)
 {
 	int		i;
 	int		j;
@@ -59,26 +59,26 @@ char	**env_unset(char *str)
 
 	i = 0;
 	j = 0;
-	while (g_env.env[i] != NULL)
+	while (e_env.env[i] != NULL)
 		i++;
 	var = ft_calloc(i + 1, sizeof(char *));
 	i = 0;
-	while (g_env.env[i] != NULL)
+	while (e_env.env[i] != NULL)
 	{
-		if (unset_comp(str, g_env.env[i]) == 0)
+		if (unset_comp(str, e_env.env[i]) == 0)
 			i++;
-		if (g_env.env[i] == NULL)
+		if (e_env.env[i] == NULL)
 			break ;
-		var[j] = ft_strdup(g_env.env[i]);
+		var[j] = ft_strdup(e_env.env[i]);
 		i++;
 		j++;
 	}
-	free_env();
+	free_env(e_env);
 	var[j] = NULL;
 	return (var);
 }
 
-int	execute_unset(char *str)
+int	execute_unset(char *str, t_env e_env)
 {
 	char	**var;
 	int		i;
@@ -89,11 +89,11 @@ int	execute_unset(char *str)
 	while (var[i] != NULL)
 	{
 		j = 0;
-		while (g_env.env[j] != NULL)
+		while (e_env.env[j] != NULL)
 		{
-			if (ft_strncmp(var[i], g_env.env[j], ft_strlen(var[i])) == 0)
+			if (ft_strncmp(var[i], e_env.env[j], ft_strlen(var[i])) == 0)
 			{
-				g_env.env = env_unset(var[i]);
+				e_env.env = env_unset(var[i], e_env);
 				break ;
 			}
 			j++;

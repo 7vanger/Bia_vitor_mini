@@ -30,26 +30,28 @@ void	handle_sign(int sign)
 		return ;
 }
 
-void	display_prompt(t_var *var)
+void	display_prompt(t_var *var, t_env e_env)
 {
-	g_env.shell_state = SH_READ;
+	(void)e_env;
+	e_env.shell_state = SH_READ;
 	var->cmd = readline(var->term);
-	g_env.shell_state = SH_EXEC;
+	e_env.shell_state = SH_EXEC;
 }
 
-void	set_env(char **str)
+void	set_env(char **str, t_env e_env)
 {
-	g_env.env = set_env_2(str);
-	g_env.shell_state = SH_READ;
-	g_env.child = 0;
-	g_env.pwd = ft_substr(set(1), 4, ft_strlen(set(1)));
-	g_env.home = ft_substr(set(2), 5, ft_strlen(set(2)));
-	g_env.retval = 0;
+	(void)e_env;
+	e_env.env = set_env_2(str);
+	e_env.shell_state = SH_READ;
+	e_env.child = 0;
+	e_env.pwd = ft_substr(set(1, e_env), 4, ft_strlen(set(1, e_env)));
+	e_env.home = ft_substr(set(2, e_env), 5, ft_strlen(set(2, e_env)));
+	e_env.retval = 0;
 }
 
-void	init_prompt(t_var *var, char **env)
+void	init_prompt(t_var *var, char **env, t_env e_env)
 {
-	set_env(env);
+	set_env(env, e_env);
 	var->term = "shellzinho$ ";
 	var->cmd = NULL;
 	var->fileno_out = STDIN_FILENO;

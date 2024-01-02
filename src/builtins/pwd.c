@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-int	execute_pwd(t_token *token)
+int	execute_pwd(t_token *token, t_env e_env)
 {
 	int	i;
 
 	i = 0;
-	while (g_env.pwd[i] != '\0')
+	while (e_env.pwd[i] != '\0')
 	{
-		write (token->id.out, &g_env.pwd[i], 1);
+		write (token->id.out, &e_env.pwd[i], 1);
 		i++;
 	}
 	write (token->id.out, "\n", 1);

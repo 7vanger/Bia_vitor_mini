@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-int	path_finder(void)
+int	path_finder(t_env e_env)
 {
 	int	i;
 
 	i = 0;
-	while (g_env.env[i] != NULL && ft_strncmp(g_env.env[i], "PATH=", 5) != 0)
+	while (e_env.env[i] != NULL && ft_strncmp(e_env.env[i], "PATH=", 5) != 0)
 		i++;
-	if (g_env.env[i] == NULL)
+	if (e_env.env[i] == NULL)
 	{
 		errno = 78;
 		return (errno);
@@ -86,16 +86,16 @@ char	**separate_token(t_id *id)
 	return (buff);
 }
 
-int	get_path(t_id *id, t_token *token, char **envp)
+int	get_path(t_id *id, t_token *token, char **envp, t_env e_env)
 {
 	int		i;
 	char	**buff;
 	char	*tmp;
 
-	i = path_finder();
+	i = path_finder(e_env);
 	if (i == errno)
 		return (errno);
-	tmp = ft_substr(g_env.env[i], 5, ft_strlen(g_env.env[i]));
+	tmp = ft_substr(e_env.env[i], 5, ft_strlen(e_env.env[i]));
 	buff = ft_split(tmp, ':');
 	free(tmp);
 	tmp = get_cmd(buff, id);
@@ -105,5 +105,5 @@ int	get_path(t_id *id, t_token *token, char **envp)
 	if (tmp == NULL)
 		return (5);
 	else
-		return (exec_path(token, tmp, envp));
+		return (exec_path(token, tmp, envp, e_env));
 }

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	builtins(t_token *token, char **envp)
+int	builtins(t_token *token, char **envp, t_env e_env)
 {
 	int		i;
 
@@ -22,22 +22,22 @@ int	builtins(t_token *token, char **envp)
 	else if (ft_strncmp (token->id.built, "echo", 5) == 0)
 		i = execute_echo(token->id);
 	else if (ft_strncmp(token->id.built, "cd", 3) == 0)
-		i = execute_cd(token->id);
+		i = execute_cd(token->id, e_env);
 	else if (ft_strncmp(token->id.built, "pwd", 4) == 0)
-		i = execute_pwd(token);
+		i = execute_pwd(token, e_env);
 	else if (ft_strncmp(token->id.built, "export", 7) == 0)
-		i = execute_export(token->id.print);
+		i = execute_export(token->id.print, e_env);
 	else if (ft_strncmp(token->id.built, "unset", 6) == 0)
-		i = execute_unset(token->id.print);
+		i = execute_unset(token->id.print, e_env);
 	else if (ft_strncmp(token->id.built, "env", 4) == 0)
-		i = execute_env();
+		i = execute_env(e_env);
 	else if (ft_strncmp(token->id.built, "exit", 5) == 0)
-		return (execute_exit(token, token->id.print));
+		return (execute_exit(token, token->id.print, e_env));
 	else
-		i = execute_path(token, envp);
+		i = execute_path(token, envp, e_env);
 	if (token->err == 0)
 		free_buff(token);
-	return (g_env.retval = ft_msg(i));
+	return (e_env.retval = ft_msg(i));
 }
 
 int	is_builtin(t_token *token)
