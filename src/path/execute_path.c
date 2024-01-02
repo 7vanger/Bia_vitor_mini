@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlopes <vlopes@student.42.rio>             +#+  +:+       +#+        */
+/*   By: ade-sous <ade-sous@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:11:26 by vlopes            #+#    #+#             */
-/*   Updated: 2023/07/12 18:48:10 by vlopes           ###   ########.fr       */
+/*   Updated: 2024/01/02 08:18:35 by ade-sous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,9 @@ int	child_in(t_token *token, int i, char **envp)
 	else
 	{
 		close(token->fd[0]);
-		dup2(token->fd[0], STDIN_FILENO);
+		dup2(token->prev->fd[0], STDIN_FILENO);
 		close(token->prev->fd[0]);
+		close(token->prev->fd[1]);
 		dup2(token->fd[1], STDOUT_FILENO);
 		close(token->fd[1]);
 		close(token->prev->fd[1]);

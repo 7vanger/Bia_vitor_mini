@@ -65,7 +65,7 @@ int main(int argc, char **argv, char **envp)
 	t_var	var;
 	t_token	*process;
 
-	atexit(report_mem_leak);
+	// atexit(report_mem_leak);
 
 	(void)argv;
 	process = NULL;

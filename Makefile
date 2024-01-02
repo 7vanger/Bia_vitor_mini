@@ -4,7 +4,7 @@ INC = -I./include
 VPATH = src src/prompt src/libft_v src/parser src/builtins src/expand src/path\
 
 PROMPT = init_prompt
-LIBFT_V = get_next_line_utils get_next_line ft_split ft_memcpy ft_strncmp ft_strcmp ft_isspace ft_ulstr ft_strdup ft_memset ft_calloc ft_isalnum ft_isprint ft_atoi\
+LIBFT_V = get_next_line_utils ft_split ft_memcpy ft_strncmp ft_strcmp ft_isspace ft_ulstr ft_strdup ft_memset ft_calloc ft_isalnum ft_isprint ft_atoi\
 		ft_substr ft_strjoin utils_libft ft_itoa ft_isdigit
 PARSER = parser  utils_parser utils_parser2 utils_parser3
 BUILTINS = builtins echo cd pwd export unset exit env
@@ -12,8 +12,7 @@ EXPAND = expand expand_utils
 PATH_V = execute_path path_utils path_utils_2
 
 NAME = minishell
-SRC = leak_detector_c.c\
-	  $(addsuffix .c, $(PROMPT))\
+SRC = $(addsuffix .c, $(PROMPT))\
 	  $(addsuffix .c, $(LIBFT_V))\
 	  $(addsuffix .c, $(PARSER))\
 	  $(addsuffix .c, $(BUILTINS))\
