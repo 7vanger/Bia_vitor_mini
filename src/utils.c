@@ -16,11 +16,15 @@ void	free_buff(t_token *token)
 {
 	if (token->id.print)
 		free (token->id.print);
+	fprintf(stderr, "Limpei sakaralha [%s] | ", token->id.built);
 	if (token->id.built)
 		free (token->id.built);
 	if (token->id.path)
 		free (token->id.path);
+	fprintf(stderr, "[%p]\n", token->id.opt);
 	free (token->id.opt);
+	token->id.opt = NULL;
+	fprintf(stderr, "[%p]\n", token->id.opt);
 	return ;
 }
 

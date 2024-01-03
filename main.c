@@ -12,10 +12,14 @@ int	execute_mini(t_token *process, char **envp)
 	while (i <= g_env.pipenum)
 	{
 		i++;
-		if (is_builtin(process) == 0)
+		if (is_builtin(process) != 0)
+		{
 			pipers(process, envp);
-		else if (is_builtin(process) != 0)
+		}
+		else if (is_builtin(process) == 0)
+		{
 			builtins(process, envp);
+		}
 		process = process->next;
 	}
 	i = 0;
@@ -23,8 +27,10 @@ int	execute_mini(t_token *process, char **envp)
 	{
 		close (token->fd[0]);
 		close (token->fd[1]);
+		t_token *tmp = token->next;
+		fprintf (stderr, "opt: [%p]\n", token->id.opt);
 		free(token);
-		token = token->next;
+		token = tmp;
 		i++;
 	}
 	g_env.pipenum = 0;
@@ -46,9 +52,11 @@ t_token	*init_process(t_var *var, t_token *process, char **envp)
 			continue ;
 		}
 		process = create_node(var->cmd, process);
+		printf("opt: [%s]\n", process->id.opt);
 		add_history(var->cmd);
 		free(var->cmd);
 		g_env.shell_state = SH_READ;
+		printf("%d\n", process->next == NULL);
 		if (process->next)
 			return (process);
 		else if (process != NULL)

@@ -41,6 +41,30 @@ int	exec_path(t_token *token, char *path, char **envp)
 	return (errno);
 }
 
+void	father_in_first_node(t_token *token) {
+	if (token->index == 0)
+	{
+		fprintf(stderr, "\n>> P. %d: Fechando leitura\n", token->index);
+		close(token->fd[0]);
+	}
+	else
+	{
+		fprintf(stderr, "\n>> P. %d: Fechando escrita\n", token->prev->index);
+		close(token->prev->fd[1]);
+		fprintf(stderr, ">> P. %d: Fechando leitura\n", token->index);
+		close(token->fd[0]);
+	}
+}
+
+void	father_in_last_node(t_token *token) {
+	fprintf(stderr, "\n>> P. %d: Fechando escrita\n", token->prev->index);
+	close(token->prev->fd[1]);
+	fprintf(stderr, ">> P. %d: Fechando leitura\n", token->index);
+	close(token->fd[0]);
+	fprintf(stderr, ">> P. %d: Fechando escrita\n", token->index);
+	close(token->fd[1]);
+}
+
 int	pipers(t_token *process, char **envp)
 {
 	pid_t	parent;
@@ -61,7 +85,12 @@ int	pipers(t_token *process, char **envp)
 		perror("fork");
 		exit(1);
 	}
-	else
+	else {
+		if (process->next)
+			father_in_first_node(process);
+		else if (!process->next)
+			father_in_last_node(process);
 		wait(0);
+	}
 	return (g_env.retval = r);
 }	

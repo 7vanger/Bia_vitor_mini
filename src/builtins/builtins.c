@@ -35,8 +35,9 @@ int	builtins(t_token *token, char **envp)
 		return (execute_exit(token, token->id.print));
 	else
 		i = execute_path(token, envp);
-	if (token->err == 0)
+	if (token->err == 0) {
 		free_buff(token);
+	}
 	return (g_env.retval = ft_msg(i));
 }
 

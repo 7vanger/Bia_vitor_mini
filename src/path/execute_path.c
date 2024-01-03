@@ -65,7 +65,9 @@ void	exec_child(t_token *token, char *path, char **envp)
 	tmp = separate_token(&token->id);
 	if (token->index >= 0 && token->index != g_env.pipenum
 		&& g_env.pipenum != 0)
+	{
 		child_in(token, 1, envp);
+	}
 	else if (token->index == g_env.pipenum && g_env.pipenum > 0)
 		pipe_out(token, 1, envp);
 	if (token->id.out != STDOUT_FILENO)
@@ -78,6 +80,7 @@ void	exec_child(t_token *token, char *path, char **envp)
 		dup2(token->id.in, STDIN_FILENO);
 		close(token->id.in);
 	}
+	free_buff(token);
 	execve(path, tmp, envp);
 	perror("execve:");
 	exit(errno);
@@ -89,21 +92,27 @@ int	child_in(t_token *token, int i, char **envp)
 {
 	if (token->index == 0)
 	{
+		fprintf(stderr, "f. %d: Fechando leitura\n", token->index);
 		close(token->fd[0]);
+		fprintf(stderr, "f. %d: Duplicando escrita\n", token->index);
 		dup2(token->fd[1], STDOUT_FILENO);
+		fprintf(stderr, "f. %d: Fechando escrita\n", token->index);
 		close(token->fd[1]);
-		close(token->next->fd[1]);
-		close(token->next->fd[0]);
 	}
 	else
 	{
+		fprintf(stderr, "f. %d: Fechando leitura\n", token->index);
 		close(token->fd[0]);
-		dup2(token->prev->fd[0], STDIN_FILENO);
+		fprintf(stderr, "f. %d: Duplicando escrita\n", token->prev->index);
+		dup2(token->prev->fd[1], STDIN_FILENO);
+		fprintf(stderr, "f. %d: Fechando escrita\n", token->prev->index);
+		close(token->prev->fd[1]);
+		fprintf(stderr, "f. %d: Fechando leitura\n", token->prev->index);
 		close(token->prev->fd[0]);
-		close(token->prev->fd[1]);
+		fprintf(stderr, "f. %d: Duplicando escrita\n", token->index);
 		dup2(token->fd[1], STDOUT_FILENO);
+		fprintf(stderr, "f. %d: Fechando escrita\n", token->index);
 		close(token->fd[1]);
-		close(token->prev->fd[1]);
 	}
 	if (i == 1)
 		return (0);
@@ -115,10 +124,17 @@ int	child_in(t_token *token, int i, char **envp)
 
 int	pipe_out(t_token *token, int i, char **envp)
 {
-	close(token->prev->fd[1]);
-	dup2(token->prev->fd[0], STDIN_FILENO);
+	fprintf(stderr, "f. %d: Fechando leitura\n", token->prev->index);
 	close(token->prev->fd[0]);
+	fprintf(stderr, "f. %d: Duplicando escrita\n", token->prev->index);
+	dup2(token->prev->fd[1], STDIN_FILENO);
+	fprintf(stderr, "f. %d: Fechando escrita\n", token->prev->index);
+	close(token->prev->fd[1]);
+	fprintf(stderr, "f. %d: Fechando leitura\n", token->index);
 	close(token->fd[0]);
+	fprintf(stderr, "f. %d: Duplicando escrita\n", token->index);
+	dup2(token->fd[1], STDOUT_FILENO);
+	fprintf(stderr, "f. %d: Fechando escrita\n", token->index);
 	close(token->fd[1]);
 	if (i == 1)
 		return (0);

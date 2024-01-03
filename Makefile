@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -Werror -Wextra -Wall -g
+FLAGS = -Werror -Wextra -Wall -g ${DFLAG}
 INC = -I./include
 VPATH = src src/prompt src/libft_v src/parser src/builtins src/expand src/path\
 
@@ -43,6 +43,10 @@ fclean: clean
 	rm -rf $(NAME)
 
 re: fclean all	
+
+fsanitize: DFLAG=-fsanitize=address 
+
+fsanitize: re
 
 #run: re
 #	./minishell

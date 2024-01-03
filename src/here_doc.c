@@ -22,7 +22,7 @@ static char	*do_history(char *str)
 	return (str);
 }
 
-static int	sub_readline(char *str, char *delim)
+static int	sub_readline(char *str, char *delim, t_token *token)
 {
 	int		pipes[2];
 	pid_t	child;
@@ -36,6 +36,7 @@ static int	sub_readline(char *str, char *delim)
 		{
 			free(str);
 			close(pipes[1]);
+			free_buff(token);
 			exit(0);
 		}
 		if (str[0] == '\0' || ft_strcmp(str, "\n") == 0)
@@ -67,7 +68,7 @@ int	here_doc(int i, t_token *token)
 	if (ft_isprint(delim[0]) == 0)
 		return (2);
 	token->input += c - 1;
-	return (sub_readline(str, delim));
+	return (sub_readline(str, delim, token));
 }
 
 int	input_token(int i, t_token *token)

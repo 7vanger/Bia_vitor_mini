@@ -23,7 +23,6 @@ void	set_token(t_token *token)
 
 t_token	*go_node(t_token *token)
 {
-	printf("8.1\n");
 	while (token->input[0] != '\0')
 	{
 		set_token(token);

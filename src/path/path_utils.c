@@ -80,7 +80,7 @@ char	**separate_token(t_id *id)
 		buff[count.i] = ft_strdup(bin[count.i - 1]);
 		count.i++;
 	}
-	while (count.i++ < count.j)
+	while (count.i++ < (count.j - 1))
 		buff[count.i] = NULL;
 	free_pointers(bin);
 	return (buff);
