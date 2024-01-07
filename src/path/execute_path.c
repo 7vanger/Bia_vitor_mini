@@ -81,14 +81,43 @@ void	exec_child(t_token *token, char *path, char **envp)
 	execve(path, tmp, envp);
 	perror("execve:");
 	exit(errno);
-	if (access(token->id.built, F_OK) != 0)
-		exit(errno);
+}
+
+void close_fds_in_child(t_token *token)
+{
+	t_token	*tmp;
+	int		i;
+
+	tmp = token;
+	i = 0;
+	fprintf(stderr, "Nó %d - Fechando Tudo\n", token->index);
+	while (i <= token->index)
+	{
+		fprintf(stderr, "%d fechado  .1\n", tmp->index);
+		close(tmp->fd[0]);
+		close(tmp->fd[1]);
+		i++;
+		tmp = tmp->prev;
+	}
+	if (token->next)
+	{
+		tmp = token->next;
+	}
+	while (tmp)
+	{
+		fprintf(stderr, "%d fechado   .2\n", tmp->index);
+		close(tmp->fd[0]);
+		close(tmp->fd[1]);
+		tmp = tmp->next;
+	}
+	//fprintf(stderr, "SAIU\n");
 }
 
 int	child_in(t_token *token, int i, char **envp)
 {
 	if (token->index == 0)
 	{
+		//fprintf(stderr, "AAAAAAAAA\n");
 		close(token->fd[0]);
 		dup2(token->fd[1], STDOUT_FILENO);
 		close(token->fd[1]);
@@ -97,6 +126,7 @@ int	child_in(t_token *token, int i, char **envp)
 	}
 	else
 	{
+		//fprintf(stderr, "BBBBBBBBB\n");
 		close(token->fd[0]);
 		dup2(token->prev->fd[0], STDIN_FILENO);
 		close(token->prev->fd[0]);
@@ -104,22 +134,27 @@ int	child_in(t_token *token, int i, char **envp)
 		dup2(token->fd[1], STDOUT_FILENO);
 		close(token->fd[1]);
 		close(token->prev->fd[1]);
+
 	}
+	//close_fds_in_child(token);
 	if (i == 1)
 		return (0);
 	else if (i == 0)
 		return (builtins(token, envp));
 	else
 		return (errno);
+	
 }
 
 int	pipe_out(t_token *token, int i, char **envp)
 {
+	//fprintf(stderr, "CCCCCCCCCCC\n");
 	close(token->prev->fd[1]);
 	dup2(token->prev->fd[0], STDIN_FILENO);
 	close(token->prev->fd[0]);
 	close(token->fd[0]);
 	close(token->fd[1]);
+	//close_fds_in_child(token);
 	if (i == 1)
 		return (0);
 	else if (i == 0)

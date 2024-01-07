@@ -2,32 +2,56 @@
 
 t_env g_env;
 
-int	execute_mini(t_token *process, char **envp)
+int	old_execute_mini(t_token *process, char **envp)
 {
 	t_token	*token;
 	int		i;
+	int status;
+	pid_t	*child;
+	//t_token *next_token;
 
 	i = 0;
+	status = 0;
+	child = malloc(sizeof(pid_t) * (g_env.pipenum + 1));
 	token = process;
 	while (i <= g_env.pipenum)
 	{
-		i++;
-		if (is_builtin(process) == 0)
-			pipers(process, envp);
-		else if (is_builtin(process) != 0)
-			builtins(process, envp);
+		child[i] = fork();
+		if (child[i] == 0) {
+			pipers(process, envp, child[i]);
+			exit(0);
+		}
+		//pipeline(process, separate_token(&process->id), envp);
 		process = process->next;
+		i++;
 	}
 	i = 0;
 	while (i <= g_env.pipenum)
 	{
+		fprintf(stderr, ">P. %d fechado   .2\n", i);
 		close (token->fd[0]);
 		close (token->fd[1]);
-		free(token);
+		//next_token = token->next;
+		//free(token);
 		token = token->next;
 		i++;
 	}
+	i = 0;
+	while (i <= g_env.pipenum)
+	{
+		waitpid(child[i], &status, 0);
+		i++;
+	}
+	//for (i = 0; i <= g_env.pipenum; i++) wait(NULL);
 	g_env.pipenum = 0;
+	return (0);
+}
+
+int	execute_mini(t_token *process, char **envp)
+{
+	
+	pipers(process, envp, 0);
+	
 	return (0);
 }
 
@@ -77,6 +101,7 @@ int main(int argc, char **argv, char **envp)
 			process = init_process(&var, process, envp);
 			if (g_env.pipenum)
 				execute_mini(process, envp);
+				//pipeline(process, separate_token(&process->id), envp);
 		}
 		return (errno);
 	}

@@ -19,7 +19,6 @@
 # include <sys/types.h>
 # include <termios.h>
 # include <errno.h>
-#include "leak_detector_c.h"
 
 typedef struct	s_var
 {
@@ -167,7 +166,10 @@ int	get_path(t_id *id, t_token *token, char **envp);
 char	*get_cmd(char **str, t_id *id);
 int	path_finder(void);
 int	exec_path(t_token *token, char *path, char **envp);
-int	pipers(t_token *process, char **envp);
+int	pipers(t_token *process, char **envp, pid_t	child);
+void close_fds_in_child(t_token *token);
+void pipeline(t_token *cmd, char **args, char **envp);
+
 
 //heredoc
 int	input_token(int i, t_token *token);

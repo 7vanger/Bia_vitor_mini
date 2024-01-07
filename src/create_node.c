@@ -27,8 +27,8 @@ t_token	*go_node(t_token *token)
 	while (token->input[0] != '\0')
 	{
 		set_token(token);
-		if (pipe(token->fd) == -1)
-			return (NULL);
+		//if (pipe(token->fd) == -1)
+		//	return (NULL);
 		parser(token);
 		if (token->input[0] == '|')
 		{

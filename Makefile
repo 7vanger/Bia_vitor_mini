@@ -9,7 +9,7 @@ LIBFT_V = get_next_line_utils ft_split ft_memcpy ft_strncmp ft_strcmp ft_isspace
 PARSER = parser  utils_parser utils_parser2 utils_parser3
 BUILTINS = builtins echo cd pwd export unset exit env
 EXPAND = expand expand_utils
-PATH_V = execute_path path_utils path_utils_2
+PATH_V = execute_path path_utils path_utils_2 test
 
 NAME = minishell
 SRC = $(addsuffix .c, $(PROMPT))\
