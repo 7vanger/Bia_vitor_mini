@@ -53,7 +53,7 @@ int	exec_parent(t_token *token, char **envp)
 		close(token->id.in);
 	if (token->id.out != STDOUT_FILENO)
 		close(token->id.out);
-	return (errno);
+	return (status);
 }
 
 void	exec_child(t_token *token, char *path, char **envp)

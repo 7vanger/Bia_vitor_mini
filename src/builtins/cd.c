@@ -21,7 +21,6 @@ void	add_section(t_token *token)
 	if (i == 0)
 		i = 1;
 	buff = ft_substr(token->id.tmp, 0, i);
-	printf("consigo aqui\n");
 	if (buff[0] == '/' && token->id.path[ft_strlen(token->id.path) - 1] == '/')
 	{
 		free(buff);
@@ -29,7 +28,6 @@ void	add_section(t_token *token)
 		return ;
 	}
 	token->id.path = paste_char(token->id.path, buff);
-	printf ("outra parte aqui id.path: %s\n", token->id.path);
 	while (i--)
 		token->id.tmp++;
 	if (buff != NULL)

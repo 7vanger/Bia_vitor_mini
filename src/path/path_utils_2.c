@@ -38,7 +38,7 @@ int	exec_path(t_token *token, char *path, char **envp)
 	if (token->id.out != STDOUT_FILENO)
 		close(token->id.out);
 	free(path);
-	return (errno);
+	return (status);
 }
 
 int	pipers(t_token *process, char **envp)

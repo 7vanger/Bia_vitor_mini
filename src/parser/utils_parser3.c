@@ -15,10 +15,8 @@
 void	any_path(t_token *token)
 {
 	token->id.path = paste_char(token->id.path, g_env.pwd);
-	printf("any_id.path: %s\n", token->id.path);
 	if (token->id.path[ft_strlen(token->id.path) - 1] != '/')
 		token->id.path = paste_char(token->id.path, "/");
-	printf("any_id.path: %s\n e o tmp: %s\n", token->id.path, token->id.tmp);
 	while (token->id.tmp[0] == '/' || ft_isalnum(token->id.tmp[0]) == 1 ||
 			ft_strncmp(token->id.tmp, "..", 2) == 0)
 	{
