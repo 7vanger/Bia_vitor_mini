@@ -15,9 +15,9 @@
 int	exec_path(t_token *token, char *path, char **envp)
 {
 	pid_t	child;
-	int		status;
+	//int		status;
 
-	status = 0;
+	//status = 0;
 	child = fork();
 	if (child == 0)
 		exec_child(token, path, envp);
@@ -31,7 +31,7 @@ int	exec_path(t_token *token, char *path, char **envp)
 	if (child != 0)
 	{
 		g_env.shell_state = SH_CHILD;
-		waitpid(0, &status, 0);
+		//waitpid(0, &status, 0);
 	}
 	if (token->id.in != STDIN_FILENO)
 		close(token->id.in);

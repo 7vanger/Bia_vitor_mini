@@ -23,7 +23,8 @@ int	execute_mini(t_token *process, char **envp)
 	{
 		close (token->fd[0]);
 		close (token->fd[1]);
-		free(token);
+		wait(0);
+		//free(token);
 		token = token->next;
 		i++;
 	}
