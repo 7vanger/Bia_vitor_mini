@@ -15,10 +15,12 @@
 int	exec_path(t_token *token, char *path, char **envp)
 {
 	pid_t	child;
-	//int		status;
+	int		status;
+	int		i;
 
-	//status = 0;
+	status = 0;
 	child = fork();
+	i = 0;
 	if (child == 0)
 		exec_child(token, path, envp);
 	else if (child != 0 && token->index > 0)
@@ -28,17 +30,21 @@ int	exec_path(t_token *token, char *path, char **envp)
 	}
 	else if (child != 0 && token->index == g_env.pipenum && g_env.pipenum != 0)
 		close(token->prev->fd[1]);
-	if (child != 0)
+	if (child != 0 && !token->next)
 	{
-		g_env.shell_state = SH_CHILD;
-		//waitpid(0, &status, 0);
+		while (i <= g_env.pipenum)
+		{
+			g_env.shell_state = SH_CHILD;
+			waitpid(0, &status, 0);
+			i++;
+		}
 	}
 	if (token->id.in != STDIN_FILENO)
 		close(token->id.in);
 	if (token->id.out != STDOUT_FILENO)
 		close(token->id.out);
 	free(path);
-	return (errno);
+	return (status);
 }
 
 int	pipers(t_token *process, char **envp)
