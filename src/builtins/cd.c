@@ -56,34 +56,34 @@ void	remove_section(t_token *token)
 	free(tmp);
 }
 
-int	execute_cd(t_id id)
+int	execute_cd(t_id id, t_env *l_env)
 {
 	char	*pwd;
 	char	*oldpwd;
 
+	(void)l_env;
 	if (chdir(id.path) == -1)
 	{
 		write(2, "minishell: No such file or directory\n", 38);
 		return (2);
 	}
 	pwd = ft_strjoin("OLDPWD=", g_env.pwd);
-	execute_export(pwd);
+	execute_export(pwd, l_env);
 	free(g_env.pwd);
 	if (id.path[ft_strlen(id.path) - 1] == '/')
 	{
 		oldpwd = ft_substr(id.path, 0, ft_strlen(id.path) - 1);
 		g_env.pwd = ft_strdup(oldpwd);
-		l_env.pwd = ft_strdup(oldpwd);
+		g_env.pwd = ft_strdup(oldpwd);
 		free(oldpwd);
 	}
 	else
 	{
 		g_env.pwd = ft_strdup(id.path);
-		l_env->pwd = ft_strdup(id.path);
 	}
 	free(pwd);
 	pwd = ft_strjoin("PWD=", g_env.pwd);
-	execute_export(pwd);
+	execute_export(pwd, l_env);
 	free(pwd);
 	return (errno);
 }

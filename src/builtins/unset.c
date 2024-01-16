@@ -34,11 +34,12 @@ int	unset_comp(const char *str, char *var)
 	return (1);
 }
 
-void	free_env(void)
+void	free_env(t_env *l_env)
 {
 	int	i;
 	int	j;
 
+	(void)l_env;
 	i = 0;
 	j = 0;
 	while (g_env.env[i] != NULL)
@@ -51,12 +52,13 @@ void	free_env(void)
 	free(g_env.env);
 }
 
-char	**env_unset(char *str)
+char	**env_unset(char *str, t_env *l_env)
 {
 	int		i;
 	int		j;
 	char	**var;
 
+	(void)l_env;
 	i = 0;
 	j = 0;
 	while (g_env.env[i] != NULL)
@@ -73,7 +75,7 @@ char	**env_unset(char *str)
 		i++;
 		j++;
 	}
-	free_env();
+	free_env(l_env);
 	var[j] = NULL;
 	return (var);
 }
@@ -84,6 +86,7 @@ int	execute_unset(char *str, t_env *l_env)
 	int		i;
 	int		j;
 
+	(void)l_env;
 	var = ft_split(str, ' ');
 	i = 0;
 	while (var[i] != NULL)
@@ -93,8 +96,7 @@ int	execute_unset(char *str, t_env *l_env)
 		{
 			if (ft_strncmp(var[i], g_env.env[j], ft_strlen(var[i])) == 0)
 			{
-				g_env.env = env_unset(var[i]);
-				l_env->env = env_unset(var[i]);
+				g_env.env = env_unset(var[i], l_env);
 				break ;
 			}
 			j++;

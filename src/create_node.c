@@ -21,7 +21,7 @@ void	set_token(t_token *token)
 	token->id.path = ft_calloc(1, sizeof(char));
 }
 
-t_token	*go_node(t_token *token)
+t_token	*go_node(t_token *token, t_env *l_env)
 {
 	printf("8.1\n");
 	while (token->input[0] != '\0')
@@ -29,7 +29,7 @@ t_token	*go_node(t_token *token)
 		set_token(token);
 		if (pipe(token->fd) == -1)
 			return (NULL);
-		parser(token);
+		parser(token, l_env);
 		if (token->input[0] == '|')
 		{
 			token->input++;
@@ -48,25 +48,26 @@ t_token	*go_node(t_token *token)
 	return (token);
 }
 
-t_token	*create_node(char *str, t_token *token)
+t_token	*create_node(char *str, t_token *token, t_env *l_env)
 {
 	t_token	*rec;
 	char	*obj;
 	char	*tmp;
 	int		i;
 
+	(void)l_env;
 	i = 0;
 	if (!str)
 		return (NULL);
 	tmp = ft_strdup(str);
-	obj = expand(tmp, i);
+	obj = expand(tmp, i, l_env);
 	token = ft_calloc(1, sizeof(t_token));
 	token->index = i;
 	token->input = obj;
 	token->err = 0;
 	rec = token;
 	while (token->input[0] != '\0')
-		token = go_node(token);
+		token = go_node(token, l_env);
 	g_env.pipenum = token->index;
 	free(obj);
 	return (rec);

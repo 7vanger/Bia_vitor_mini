@@ -29,10 +29,11 @@ char	**set_env_2(char **env)
 	return (buff);
 }
 
-char	*set(int num)
+char	*set(int num, t_env *l_env)
 {
 	int	i;
 
+	(void)l_env;
 	i = 0;
 	if (num == 1)
 	{

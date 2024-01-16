@@ -12,10 +12,11 @@
 
 #include "minishell.h"
 
-int	path_finder(void)
+int	path_finder(t_env *l_env)
 {
 	int	i;
 
+	(void)l_env;
 	i = 0;
 	while (g_env.env[i] != NULL && ft_strncmp(g_env.env[i], "PATH=", 5) != 0)
 		i++;
@@ -92,7 +93,7 @@ int	get_path(t_id *id, t_token *token, char **envp, t_env *l_env)
 	char	**buff;
 	char	*tmp;
 
-	i = path_finder();
+	i = path_finder(l_env);
 	if (i == errno)
 		return (errno);
 	tmp = ft_substr(g_env.env[i], 5, ft_strlen(g_env.env[i]));

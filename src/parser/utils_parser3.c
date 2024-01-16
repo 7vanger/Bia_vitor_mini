@@ -12,8 +12,9 @@
 
 #include "minishell.h"
 
-void	any_path(t_token *token)
+void	any_path(t_token *token, t_env *l_env)
 {
+	(void)l_env;
 	token->id.path = paste_char(token->id.path, g_env.pwd);
 	printf("any_id.path: %s\n", token->id.path);
 	if (token->id.path[ft_strlen(token->id.path) - 1] != '/')
@@ -45,8 +46,9 @@ void	direct_path(t_token *token)
 	}
 }
 
-void	home_path(t_token *token)
+void	home_path(t_token *token, t_env *l_env)
 {
+	(void)l_env;
 	free(token->id.path);
 	token->id.path = ft_strdup(g_env.home);
 	return ;

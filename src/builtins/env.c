@@ -12,11 +12,12 @@
 
 #include "minishell.h"
 
-int	execute_env(void)
+int	execute_env(t_env *l_env)
 {
 	int	i;
 	int	j;
 
+	(void)l_env;
 	i = 0;
 	j = -1;
 	while (g_env.env[i] != NULL)

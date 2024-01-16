@@ -29,7 +29,7 @@ void	if_token(t_token *token)
 		token->input++;
 }
 
-void	if_opt(t_token *token)
+void	if_opt(t_token *token, t_env *l_env)
 {
 	token->id.tmp = token->id.print;
 	if (token->id.tmp == NULL && ft_strncmp(token->id.built, "cd", 2) == 0)
@@ -37,9 +37,9 @@ void	if_opt(t_token *token)
 	if (ft_strcmp(token->id.built, "cd") == 0)
 	{
 		if (ft_strncmp(token->id.tmp, "home", 4) == 0)
-			home_path(token);
+			home_path(token, l_env);
 		else if (ft_strncmp(token->id.tmp, "/", 1) != 0)
-			any_path(token);
+			any_path(token, l_env);
 		if (ft_strncmp(token->id.tmp, ".", 1) == 0)
 			token->id.tmp++;
 		if (ft_strncmp(token->id.tmp, "/", 1) == 0)
@@ -92,14 +92,14 @@ void	if_builtin(int i, t_token *token)
 	token->input = cut_space(token->input);
 }
 
-void	parser(t_token *token)
+void	parser(t_token *token, t_env *l_env)
 {
 	int	i;
 
 	i = 0;
 	if_builtin(i, token);
 	if_printf(i, token);
-	if_opt(token);
+	if_opt(token, l_env);
 	while (token->input[0] != '\0' && token->input[0] != '|')
 		if_token(token);
 	if (token->err > 0)

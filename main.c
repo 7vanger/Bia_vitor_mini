@@ -47,7 +47,7 @@ t_token	*init_process(t_var *var, t_token *process, char **envp, t_env *l_env)
 			free(var->cmd);
 			continue ;
 		}
-		process = create_node(var->cmd, process);
+		process = create_node(var->cmd, process, l_env);
 		add_history(var->cmd);
 		free(var->cmd);
 		g_env.shell_state = SH_READ;

@@ -12,11 +12,12 @@
 
 #include "minishell.h"
 
-static char	*print_var(char *str)
+static char	*print_var(char *str, t_env *l_env)
 {
 	char	*tmp;
 	int		i;
 
+	(void)l_env;
 	i = 0;
 	if (ft_strncmp(str, "?=", 2) == 0)
 	{
@@ -82,7 +83,7 @@ static char	*remove_token(char *str, int i, int m)
 	return (rec);
 }
 
-static char	*find_expand(char *str, int i)
+static char	*find_expand(char *str, int i, t_env *l_env)
 {
 	int		m;
 	char	*rec;
@@ -100,7 +101,7 @@ static char	*find_expand(char *str, int i)
 		}
 	}
 	rec = ft_substr(str, i, m - i);
-	key = print_var(retire_sign(rec, 1));
+	key = print_var(retire_sign(rec, 1), l_env);
 	rec = ft_substr(str, i, m - i);
 	if (!*key)
 		str = remove_token(str, i, m);
@@ -111,7 +112,7 @@ static char	*find_expand(char *str, int i)
 	return (str);
 }
 
-char	*expand(char *str, int i)
+char	*expand(char *str, int i, t_env *l_env)
 {
 	while (str[i] != '\0')
 	{
@@ -125,7 +126,7 @@ char	*expand(char *str, int i)
 				break ;
 			if (str[i] == '$' && str[i + 1] == 34)
 				break ;
-			str = find_expand(str, i);
+			str = find_expand(str, i, l_env);
 		}
 		if (str[i] == 39)
 		{

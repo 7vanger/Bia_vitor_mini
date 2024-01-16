@@ -12,22 +12,24 @@
 
 #include "minishell.h"
 
-char	*new_env(char *str, int i)
+char	*new_env(char *str, int i, t_env *l_env)
 {
 	char	*tmp;
 
+	(void)l_env;
 	if (g_env.env[i])
 		free(g_env.env[i]);
 	tmp = ft_strdup(str);
 	return (tmp);
 }
 
-char	**export_env(char *str)
+char	**export_env(char *str, t_env *l_env)
 {
 	char	**var;
 	int		i;
 	int		j;
 
+	(void)l_env;
 	i = 0;
 	while (g_env.env[i] != NULL)
 		i++;
@@ -86,12 +88,13 @@ int	identchcker(char *str)
 	return (0);
 }
 
-int	execute_export(char *str)
+int	execute_export(char *str, t_env *l_env)
 {
 	char	**var;
 	int		i;
 	int		j;
 
+	(void)l_env;
 	i = 0;
 	j = 0;
 	if (identchcker(str) == 4)
@@ -103,13 +106,11 @@ int	execute_export(char *str)
 			i++;
 		if (g_env.env[i] == NULL)
 		{
-			g_env.env = export_env(var[j]);
-			l_env.env = export_env(var[j]);
+			g_env.env = export_env(var[j], l_env);
 		}
 		else
 		{
-			g_env.env[i] = new_env(var[j], i);
-			l_env.env[i] = new_env(var[j], i);
+			g_env.env[i] = new_env(var[j], i, l_env);
 		}
 		j++;
 	}

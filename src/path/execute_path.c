@@ -60,6 +60,7 @@ void	exec_child(t_token *token, char *path, char **envp, t_env *l_env)
 {
 	char	**tmp;
 
+	(void)l_env;
 	if (!path)
 		path = token->id.built;
 	tmp = separate_token(&token->id);

@@ -96,10 +96,10 @@ int	ft_msg(int code);
 int	ft_isspace_2(char *str);
 
 //parser
-void	parser(t_token *token);
+void	parser(t_token *token, t_env *l_env);
 void	if_builtin(int i, t_token *token);
 void	if_printf(int i, t_token *token);
-void	if_opt(t_token *token);
+void	if_opt(t_token *token, t_env *l_env);
 void	if_token(t_token *token);
 void	handle_quote(t_token *token, int i);
 int	cut_until_char(char *str, char c);
@@ -108,32 +108,32 @@ void	process_Input_Token(t_token *token, int i);
 int	scam_for_word(char *input);
 int	token_limit(char c);
 int	delimeter_token(int i, char *str);
-void	any_path(t_token *token);
+void	any_path(t_token *token, t_env *l_env);
 void	direct_path(t_token *token);
-void	home_path(t_token *token);
+void	home_path(t_token *token, t_env *l_env);
 
 //builtins
 int	builtins(t_token *token, char **envp, t_env *l_env);
 void	add_section(t_token *token);
 void	remove_section(t_token *token);
 int	execute_echo(t_id id);
-int	execute_cd(t_id id);
-int	execute_pwd(t_token *token);
-int	execute_export(char *str);
-int	execute_unset(char *str);
-int	execute_env(void);
-void	free_env(void);
-int	execute_exit(t_token *token, char *status);
+int	execute_cd(t_id id, t_env *l_env);
+int	execute_pwd(t_token *token, t_env *l_env);
+int	execute_export(char *str, t_env *l_env);
+int	execute_unset(char *str, t_env *l_env);
+int	execute_env(t_env *l_env);
+void	free_env(t_env *l_env);
+int	execute_exit(t_token *token, char *status, t_env *l_env);
 int	is_builtin(t_token *token);
 int	cut_before_first_char(char *input, char c);
 
 //uitls_env
 char	**set_env_2(char **env);
-char	*set(int num);
+char	*set(int num, t_env *l_env);
 
 //create node
-t_token	*create_node(char *cmd, t_token *token);
-t_token	*go_node(t_token *token);
+t_token	*create_node(char *str, t_token *token, t_env *l_env);
+t_token	*go_node(t_token *token, t_env *l_env);
 void	set_token(t_token *token);
 
 //utils2
@@ -151,7 +151,7 @@ char	*ft_readline(int fd, int num, char *delim);
 char	*sub_trim(int i, t_token *token);
 
 //expand
-char	*expand(char *str, int i);
+char	*expand(char *str, int i, t_env *l_env);
 char	*add_content(char *content, char *add, int pos, char *var);
 int	skip_single_quote(char *str, int i);
 
@@ -165,7 +165,7 @@ char	**separate_token(t_id *id);
 t_count	init_count(void);
 int	get_path(t_id *id, t_token *token, char **envp, t_env *l_env);
 char	*get_cmd(char **str, t_id *id);
-int	path_finder(void);
+int	path_finder(t_env *l_env);
 int	exec_path(t_token *token, char *path, char **envp, t_env *l_env);
 int	pipers(t_token *process, char **envp, t_env *l_env);
 
