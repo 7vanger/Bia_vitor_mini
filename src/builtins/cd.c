@@ -67,22 +67,22 @@ int	execute_cd(t_id id, t_env *l_env)
 		write(2, "minishell: No such file or directory\n", 38);
 		return (2);
 	}
-	pwd = ft_strjoin("OLDPWD=", g_env.pwd);
+	pwd = ft_strjoin("OLDPWD=", l_env->pwd);
 	execute_export(pwd, l_env);
-	free(g_env.pwd);
+	free(l_env->pwd);
 	if (id.path[ft_strlen(id.path) - 1] == '/')
 	{
 		oldpwd = ft_substr(id.path, 0, ft_strlen(id.path) - 1);
-		g_env.pwd = ft_strdup(oldpwd);
-		g_env.pwd = ft_strdup(oldpwd);
+		l_env->pwd = ft_strdup(oldpwd);
+		l_env->pwd = ft_strdup(oldpwd);
 		free(oldpwd);
 	}
 	else
 	{
-		g_env.pwd = ft_strdup(id.path);
+		l_env->pwd = ft_strdup(id.path);
 	}
 	free(pwd);
-	pwd = ft_strjoin("PWD=", g_env.pwd);
+	pwd = ft_strjoin("PWD=", l_env->pwd);
 	execute_export(pwd, l_env);
 	free(pwd);
 	return (errno);

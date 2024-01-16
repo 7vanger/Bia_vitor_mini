@@ -29,11 +29,11 @@ int	exec_path(t_token *token, char *path, char **envp, t_env *l_env)
 		close(token->prev->fd[1]);
 		close(token->prev->fd[0]);
 	}
-	else if (child != 0 && token->index == g_env.pipenum && g_env.pipenum != 0)
+	else if (child != 0 && token->index == l_env->pipenum && l_env->pipenum != 0)
 		close(token->prev->fd[1]);
 	if (child != 0 && !token->next)
 	{
-		while (i <= g_env.pipenum)
+		while (i <= l_env->pipenum)
 		{
 			g_env.shell_state = SH_CHILD;
 			waitpid(0, &status, 0);

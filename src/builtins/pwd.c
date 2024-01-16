@@ -18,9 +18,9 @@ int	execute_pwd(t_token *token, t_env *l_env)
 
 	(void)l_env;
 	i = 0;
-	while (g_env.pwd[i] != '\0')
+	while (l_env->pwd[i] != '\0')
 	{
-		write (token->id.out, &g_env.pwd[i], 1);
+		write (token->id.out, &l_env->pwd[i], 1);
 		i++;
 	}
 	write (token->id.out, "\n", 1);

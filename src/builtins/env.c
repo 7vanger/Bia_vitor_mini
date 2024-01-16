@@ -20,9 +20,9 @@ int	execute_env(t_env *l_env)
 	(void)l_env;
 	i = 0;
 	j = -1;
-	while (g_env.env[i] != NULL)
+	while (l_env->env[i] != NULL)
 		i++;
 	while (++j < i)
-		printf ("%s\n", g_env.env[j]);
+		printf ("%s\n", l_env->env[j]);
 	return (errno);
 }

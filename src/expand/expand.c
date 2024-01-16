@@ -25,10 +25,10 @@ static char	*print_var(char *str, t_env *l_env)
 		free(str);
 		return (tmp);
 	}
-	while (g_env.env[i] && ft_strncmp(g_env.env[i], str, ft_strlen(str)) != 0)
+	while (l_env->env[i] && ft_strncmp(l_env->env[i], str, ft_strlen(str)) != 0)
 		i++;
-	if (g_env.env[i] != NULL)
-		tmp = ft_substr(g_env.env[i], ft_strlen(str), ft_strlen(g_env.env[i]));
+	if (l_env->env[i] != NULL)
+		tmp = ft_substr(l_env->env[i], ft_strlen(str), ft_strlen(l_env->env[i]));
 	else
 		tmp = ft_calloc(1, sizeof(char));
 	free (str);

@@ -23,7 +23,6 @@ void	set_token(t_token *token)
 
 t_token	*go_node(t_token *token, t_env *l_env)
 {
-	printf("8.1\n");
 	while (token->input[0] != '\0')
 	{
 		set_token(token);
@@ -68,7 +67,7 @@ t_token	*create_node(char *str, t_token *token, t_env *l_env)
 	rec = token;
 	while (token->input[0] != '\0')
 		token = go_node(token, l_env);
-	g_env.pipenum = token->index;
+	l_env->pipenum = token->index;
 	free(obj);
 	return (rec);
 }

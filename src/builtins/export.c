@@ -17,8 +17,8 @@ char	*new_env(char *str, int i, t_env *l_env)
 	char	*tmp;
 
 	(void)l_env;
-	if (g_env.env[i])
-		free(g_env.env[i]);
+	if (l_env->env[i])
+		free(l_env->env[i]);
 	tmp = ft_strdup(str);
 	return (tmp);
 }
@@ -31,20 +31,20 @@ char	**export_env(char *str, t_env *l_env)
 
 	(void)l_env;
 	i = 0;
-	while (g_env.env[i] != NULL)
+	while (l_env->env[i] != NULL)
 		i++;
 	j = i;
 	var = ft_calloc(i + 2, sizeof(char *));
 	i = 0;
-	while (g_env.env[i] != NULL && i < j)
+	while (l_env->env[i] != NULL && i < j)
 	{
-		var[i] = ft_strdup(g_env.env[i]);
-		free(g_env.env[i]);
+		var[i] = ft_strdup(l_env->env[i]);
+		free(l_env->env[i]);
 		i++;
 	}
 	var[i] = ft_strdup(str);
 	var[i + 1] = NULL;
-	free(g_env.env);
+	free(l_env->env);
 	return (var);
 }
 
@@ -102,15 +102,15 @@ int	execute_export(char *str, t_env *l_env)
 	var = ft_split(str, ' ');
 	while (var[j] != NULL)
 	{
-		while (g_env.env[i] && export_comp(var[j], g_env.env[i]) != 0)
+		while (l_env->env[i] && export_comp(var[j], l_env->env[i]) != 0)
 			i++;
-		if (g_env.env[i] == NULL)
+		if (l_env->env[i] == NULL)
 		{
-			g_env.env = export_env(var[j], l_env);
+			l_env->env = export_env(var[j], l_env);
 		}
 		else
 		{
-			g_env.env[i] = new_env(var[j], i, l_env);
+			l_env->env[i] = new_env(var[j], i, l_env);
 		}
 		j++;
 	}

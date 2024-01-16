@@ -18,9 +18,9 @@ int	path_finder(t_env *l_env)
 
 	(void)l_env;
 	i = 0;
-	while (g_env.env[i] != NULL && ft_strncmp(g_env.env[i], "PATH=", 5) != 0)
+	while (l_env->env[i] != NULL && ft_strncmp(l_env->env[i], "PATH=", 5) != 0)
 		i++;
-	if (g_env.env[i] == NULL)
+	if (l_env->env[i] == NULL)
 	{
 		errno = 78;
 		return (errno);
@@ -96,7 +96,7 @@ int	get_path(t_id *id, t_token *token, char **envp, t_env *l_env)
 	i = path_finder(l_env);
 	if (i == errno)
 		return (errno);
-	tmp = ft_substr(g_env.env[i], 5, ft_strlen(g_env.env[i]));
+	tmp = ft_substr(l_env->env[i], 5, ft_strlen(l_env->env[i]));
 	buff = ft_split(tmp, ':');
 	free(tmp);
 	tmp = get_cmd(buff, id);

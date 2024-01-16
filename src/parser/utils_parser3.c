@@ -15,7 +15,7 @@
 void	any_path(t_token *token, t_env *l_env)
 {
 	(void)l_env;
-	token->id.path = paste_char(token->id.path, g_env.pwd);
+	token->id.path = paste_char(token->id.path, l_env->pwd);
 	printf("any_id.path: %s\n", token->id.path);
 	if (token->id.path[ft_strlen(token->id.path) - 1] != '/')
 		token->id.path = paste_char(token->id.path, "/");
@@ -50,6 +50,6 @@ void	home_path(t_token *token, t_env *l_env)
 {
 	(void)l_env;
 	free(token->id.path);
-	token->id.path = ft_strdup(g_env.home);
+	token->id.path = ft_strdup(l_env->home);
 	return ;
 }

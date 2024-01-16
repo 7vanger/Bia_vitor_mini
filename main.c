@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_env g_env;
+t_global_env g_env;
 
 int	execute_mini(t_token *process, char **envp, t_env *l_env)
 {
@@ -9,7 +9,7 @@ int	execute_mini(t_token *process, char **envp, t_env *l_env)
 
 	i = 0;
 	token = process;
-	while (i <= g_env.pipenum)
+	while (i <= l_env->pipenum)
 	{
 		i++;
 		if (is_builtin(process) == 0)
@@ -19,7 +19,7 @@ int	execute_mini(t_token *process, char **envp, t_env *l_env)
 		process = process->next;
 	}
 	i = 0;
-	while (i <= g_env.pipenum)
+	while (i <= l_env->pipenum)
 	{
 		close (token->fd[0]);
 		close (token->fd[1]);
@@ -28,7 +28,7 @@ int	execute_mini(t_token *process, char **envp, t_env *l_env)
 		token = token->next;
 		i++;
 	}
-	g_env.pipenum = 0;
+	l_env->pipenum = 0;
 	l_env->pipenum = 0;
 	return (0);
 }
@@ -79,7 +79,7 @@ int main(int argc, char **argv, char **envp)
 		while (1)
 		{
 			process = init_process(&var, process, envp, l_env);
-			if (g_env.pipenum)
+			if (l_env->pipenum)
 				execute_mini(process, envp, l_env);
 		}
 		return (errno);

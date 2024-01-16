@@ -37,13 +37,13 @@ char	*set(int num, t_env *l_env)
 	i = 0;
 	if (num == 1)
 	{
-		while (g_env.env[i] && ft_strncmp(g_env.env[i], "PWD=", 4) != 0)
+		while (l_env->env[i] && ft_strncmp(l_env->env[i], "PWD=", 4) != 0)
 			i++;
 	}
 	else if (num == 2)
 	{
-		while (g_env.env[i] && ft_strncmp(g_env.env[i], "HOME=", 5) != 0)
+		while (l_env->env[i] && ft_strncmp(l_env->env[i], "HOME=", 5) != 0)
 			i++;
 	}
-	return (g_env.env[i]);
+	return (l_env->env[i]);
 }

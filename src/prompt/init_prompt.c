@@ -39,12 +39,8 @@ void	display_prompt(t_var *var)
 
 void	set_env(char **str, t_env *l_env)
 {
-	(void)l_env;
-	g_env.env = set_env_2(str);
+
 	g_env.shell_state = SH_READ;
-	g_env.child = 0;
-	g_env.pwd = ft_substr(set(1, l_env), 4, ft_strlen(set(1, l_env)));
-	g_env.home = ft_substr(set(2, l_env), 5, ft_strlen(set(2, l_env)));
 	g_env.retval = 0;
 
 

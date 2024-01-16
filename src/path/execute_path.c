@@ -64,10 +64,10 @@ void	exec_child(t_token *token, char *path, char **envp, t_env *l_env)
 	if (!path)
 		path = token->id.built;
 	tmp = separate_token(&token->id);
-	if (token->index >= 0 && token->index != g_env.pipenum
-		&& g_env.pipenum != 0)
+	if (token->index >= 0 && token->index != l_env->pipenum
+		&& l_env->pipenum != 0)
 		child_in(token, 1, envp, l_env);
-	else if (token->index == g_env.pipenum && g_env.pipenum > 0)
+	else if (token->index == l_env->pipenum && l_env->pipenum > 0)
 		pipe_out(token, 1, envp, l_env);
 	if (token->id.out != STDOUT_FILENO)
 	{

@@ -73,13 +73,18 @@ typedef struct s_env
 	char		**envp;
 	char		*pwd;
 	char		*home;
-	int		retval;
 	int		pipenum;
 	pid_t		child;
-	enum state	shell_state;
 }				t_env; //data
 
-extern	t_env g_env;
+
+typedef struct s_global_env
+{
+	int		retval;
+	enum state	shell_state;
+}				t_global_env; //data
+
+extern	t_global_env g_env;
 
 t_token	*init_process(t_var *var, t_token *process, char **envp, t_env *l_env);
 

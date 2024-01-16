@@ -51,6 +51,6 @@ int	execute_exit(t_token *token, char *status, t_env *l_env)
 	close(token->fd[0]);
 	free_buff(token);
 	free_env(l_env);
-	free(g_env.pwd);
+	free(l_env->pwd);
 	exit(i);
 }
