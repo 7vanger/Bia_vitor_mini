@@ -33,7 +33,6 @@ char	*set(int num, t_env *l_env)
 {
 	int	i;
 
-	(void)l_env;
 	i = 0;
 	if (num == 1)
 	{

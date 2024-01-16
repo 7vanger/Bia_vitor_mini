@@ -39,7 +39,7 @@ static int	sub_readline(char *str, char *delim)
 			exit(0);
 		}
 		if (str[0] == '\0' || ft_strcmp(str, "\n") == 0)
-			continue;
+			continue ;
 		write (pipes[1], str, ft_strlen(str));
 		write (pipes[1], "\n", 1);
 	}

@@ -31,7 +31,7 @@ void	add_section(t_token *token)
 	free(buff);
 }
 
-void	process_Input_Token(t_token *token, int i)
+void	process_input_token(t_token *token, int i)
 {
 	char *sub;
 

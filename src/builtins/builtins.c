@@ -60,3 +60,18 @@ int	is_builtin(t_token *token)
 		return (1);
 	return (1);
 }
+
+void	if_builtin(int i, t_token *token)
+{
+	char	*str;
+
+	token->input = cut_space(token->input);
+	i = delimeter_token(i, token->input);
+	str = ft_substr(token->input, 0, i);
+	if (ft_strncmp(str, "ECHO", 5) == 0)
+		str = ft_ulstr(str);
+	token->id.built = ft_strdup(str);
+	free(str);
+	token->input = clear_word(i, token->input);
+	token->input = cut_space(token->input);
+}

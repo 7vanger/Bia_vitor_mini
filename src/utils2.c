@@ -36,18 +36,14 @@ int	count_until_char(char *input, int i)
 	return (i);
 }
 
-void	free_pointers_2(char **str, int i)
+void	free_t_token(t_token *token)
 {
-	int	j;
+	t_token	*tmp;
 
-	i = 0;
-	j = 0;
-	while (str[j] != NULL)
-		j++;
-	while (i < j)
+	while (token)
 	{
-		free(str[i]);
-		i++;
+		tmp = token;
+		token = token->next;
+		free(tmp);
 	}
-	free(str);
 }

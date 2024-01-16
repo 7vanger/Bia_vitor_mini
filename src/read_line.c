@@ -88,7 +88,7 @@ char	*ft_readline(int fd, int num, char *delim)
 		{
 			str_siz = check_buffer(buf_siz, &buf, str_siz);
 			if (str_siz == 0)
-			break ;
+				break ;
 		}
 		buf[i] = check_end(fd, buf_siz, &buf);
 		if (buf[i] == '\n' || buf[i] == '\0')

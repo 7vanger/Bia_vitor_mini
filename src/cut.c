@@ -30,7 +30,6 @@ char	*cut_char(char *file, char c)
 
 	i = 0;
 	j = 0;
-
 	cpy = ft_calloc(ft_strlen(file), sizeof(char));
 	while (file[i])
 	{
@@ -38,7 +37,7 @@ char	*cut_char(char *file, char c)
 			i++;
 		cpy[j] = file[i];
 		i++;
-		j++;	
+		j++;
 	}
 	cpy[j] = '\0';
 	real = ft_strdup(cpy);

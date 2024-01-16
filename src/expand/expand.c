@@ -17,7 +17,6 @@ static char	*print_var(char *str, t_env *l_env)
 	char	*tmp;
 	int		i;
 
-	(void)l_env;
 	i = 0;
 	if (ft_strncmp(str, "?=", 2) == 0)
 	{
@@ -28,7 +27,8 @@ static char	*print_var(char *str, t_env *l_env)
 	while (l_env->env[i] && ft_strncmp(l_env->env[i], str, ft_strlen(str)) != 0)
 		i++;
 	if (l_env->env[i] != NULL)
-		tmp = ft_substr(l_env->env[i], ft_strlen(str), ft_strlen(l_env->env[i]));
+		tmp = ft_substr(l_env->env[i], ft_strlen(str),
+				ft_strlen(l_env->env[i]));
 	else
 		tmp = ft_calloc(1, sizeof(char));
 	free (str);

@@ -39,7 +39,6 @@ void	free_env(t_env *l_env)
 	int	i;
 	int	j;
 
-	(void)l_env;
 	i = 0;
 	j = 0;
 	while (l_env->env[i] != NULL)
@@ -58,7 +57,6 @@ char	**env_unset(char *str, t_env *l_env)
 	int		j;
 	char	**var;
 
-	(void)l_env;
 	i = 0;
 	j = 0;
 	while (l_env->env[i] != NULL)
@@ -86,7 +84,6 @@ int	execute_unset(char *str, t_env *l_env)
 	int		i;
 	int		j;
 
-	(void)l_env;
 	var = ft_split(str, ' ');
 	i = 0;
 	while (var[i] != NULL)

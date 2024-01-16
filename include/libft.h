@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlopes <vlopes@student.42.rio>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/12 15:04:14 by vlopes            #+#    #+#             */
+/*   Updated: 2023/07/12 15:04:28 by vlopes           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LIBFT_H
 # define LIBFT_H
 # define BUFFER_SIZE 30
@@ -30,6 +42,6 @@ void	*ft_realloc(void *ptr, size_t size);
 //int		ft_isspace(char *cmd);
 int		ft_stristr(const char *haystack, const char *needle, size_t len);
 char	*ft_itoa(int n);
-int	    ft_isdigit(int c);
+int		ft_isdigit(int c);
 
 #endif

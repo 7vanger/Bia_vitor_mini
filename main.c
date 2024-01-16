@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlopes <vlopes@student.42.rio>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/12 15:04:37 by vlopes            #+#    #+#             */
+/*   Updated: 2023/07/12 15:04:51 by vlopes           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-t_global_env g_env;
+t_global_env	g_env;
 
 int	execute_mini(t_token *process, char **envp, t_env *l_env)
 {
@@ -9,9 +21,8 @@ int	execute_mini(t_token *process, char **envp, t_env *l_env)
 
 	i = 0;
 	token = process;
-	while (i <= l_env->pipenum)
+	while (i++ <= l_env->pipenum)
 	{
-		i++;
 		if (is_builtin(process) == 0)
 			pipers(process, envp, l_env);
 		else if (is_builtin(process) != 0)
@@ -19,16 +30,13 @@ int	execute_mini(t_token *process, char **envp, t_env *l_env)
 		process = process->next;
 	}
 	i = 0;
-	while (i <= l_env->pipenum)
+	while (i++ <= l_env->pipenum)
 	{
 		close (token->fd[0]);
 		close (token->fd[1]);
 		wait(0);
-		//free(token);
 		token = token->next;
-		i++;
 	}
-	l_env->pipenum = 0;
 	l_env->pipenum = 0;
 	return (0);
 }
@@ -42,7 +50,7 @@ t_token	*init_process(t_var *var, t_token *process, char **envp, t_env *l_env)
 		if (!var->cmd)
 			exit_prompt();
 		if (var->cmd[0] == '\0' || ft_strcmp(var->cmd, "\n") == 0
-				|| ft_isspace_2(var->cmd) == 1)
+			|| ft_isspace_2(var->cmd) == 1)
 		{
 			free(var->cmd);
 			continue ;
@@ -62,13 +70,11 @@ t_token	*init_process(t_var *var, t_token *process, char **envp, t_env *l_env)
 	return (NULL);
 }
 
-int main(int argc, char **argv, char **envp) 
+int	main(int argc, char **argv, char **envp)
 {
 	t_var	var;
 	t_token	*process;
 	t_env	*l_env;
-
-	// atexit(report_mem_leak);
 
 	(void)argv;
 	process = NULL;
@@ -81,6 +87,7 @@ int main(int argc, char **argv, char **envp)
 			process = init_process(&var, process, envp, l_env);
 			if (l_env->pipenum)
 				execute_mini(process, envp, l_env);
+			free_t_token(process);
 		}
 		return (errno);
 	}

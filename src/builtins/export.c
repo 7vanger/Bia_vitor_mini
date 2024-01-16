@@ -16,7 +16,6 @@ char	*new_env(char *str, int i, t_env *l_env)
 {
 	char	*tmp;
 
-	(void)l_env;
 	if (l_env->env[i])
 		free(l_env->env[i]);
 	tmp = ft_strdup(str);
@@ -29,7 +28,6 @@ char	**export_env(char *str, t_env *l_env)
 	int		i;
 	int		j;
 
-	(void)l_env;
 	i = 0;
 	while (l_env->env[i] != NULL)
 		i++;
@@ -94,7 +92,6 @@ int	execute_export(char *str, t_env *l_env)
 	int		i;
 	int		j;
 
-	(void)l_env;
 	i = 0;
 	j = 0;
 	if (identchcker(str) == 4)
@@ -105,13 +102,9 @@ int	execute_export(char *str, t_env *l_env)
 		while (l_env->env[i] && export_comp(var[j], l_env->env[i]) != 0)
 			i++;
 		if (l_env->env[i] == NULL)
-		{
 			l_env->env = export_env(var[j], l_env);
-		}
 		else
-		{
 			l_env->env[i] = new_env(var[j], i, l_env);
-		}
 		j++;
 	}
 	free_pointers(var);

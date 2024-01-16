@@ -47,13 +47,13 @@ void	if_opt(t_token *token, t_env *l_env)
 	}
 }
 
-void	if_printf(int i, t_token *token)
+void	n_flag(int i, t_token *token)
 {
 	int	j;
 
 	j = 1;
-	while (ft_strncmp(token->id.built, "echo", 4) == 0 
-			&& ft_strncmp(token->input, "-n", 2) == 0)
+	while (ft_strncmp(token->id.built, "echo", 4) == 0
+		&& ft_strncmp(token->input, "-n", 2) == 0)
 	{
 		while (token->input[j + 1] != '\0' && token->input[j + 1] == 'n')
 			j++;
@@ -61,10 +61,15 @@ void	if_printf(int i, t_token *token)
 			break ;
 		free(token->id.opt);
 		token->id.opt = ft_strdup("-n");
-		token->input = clear_word(count_until_char(token->input, i), 
+		token->input = clear_word(count_until_char(token->input, i),
 				token->input);
 		token->input = cut_space(token->input);
 	}
+}
+
+void	if_printf(int i, t_token *token)
+{
+	n_flag(i, token);
 	if (!token->id.print)
 	{
 		while (token->input && token_limit(token->input[0]) == 0)
@@ -72,24 +77,9 @@ void	if_printf(int i, t_token *token)
 			if (token->input[0] == 34 || token->input[0] == 39)
 				handle_quote(token, i);
 			else
-				process_Input_Token(token, i);
+				process_input_token(token, i);
 		}
 	}
-}
-
-void	if_builtin(int i, t_token *token)
-{
-	char	*str;
-
-	token->input = cut_space(token->input);
-	i = delimeter_token(i, token->input);
-	str = ft_substr(token->input, 0, i);
-	if (ft_strncmp(str, "ECHO", 5) == 0)
-		str = ft_ulstr(str);
-	token->id.built = ft_strdup(str);
-	free(str);
-	token->input = clear_word(i, token->input);
-	token->input = cut_space(token->input);
 }
 
 void	parser(t_token *token, t_env *l_env)

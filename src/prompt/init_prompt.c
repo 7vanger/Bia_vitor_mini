@@ -39,11 +39,8 @@ void	display_prompt(t_var *var)
 
 void	set_env(char **str, t_env *l_env)
 {
-
 	g_env.shell_state = SH_READ;
 	g_env.retval = 0;
-
-
 	l_env->env = set_env_2(str);
 	l_env->child = 0;
 	l_env->pwd = ft_substr(set(1, l_env), 4, ft_strlen(set(1, l_env)));
@@ -57,7 +54,7 @@ void	init_prompt(t_var *var, char **env, t_env *l_env)
 	var->cmd = NULL;
 	var->fileno_out = STDIN_FILENO;
 	var->func_term = isatty(var->fileno_out);
-	if(var->func_term)
+	if (var->func_term)
 	{
 		tcgetattr(var->fileno_out, &(*var).mod_term);
 		(*var).new_opt = (*var).mod_term;

@@ -30,9 +30,9 @@ int	scan_for_word(char *input)
 	return (2);
 }
 
-void	process_Input_Token(t_token *token, int i)
+void	process_input_token(t_token *token, int i)
 {
-	char *sub;
+	char	*sub;
 
 	i = delimeter_token(i, token->input);
 	if (i > 0)

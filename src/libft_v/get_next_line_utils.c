@@ -47,7 +47,7 @@ size_t	ft_strlen(const char *s)
 }
 
 char	*ft_to_name(char *name, char *s1, char *s2)
-{	
+{
 	int	j;
 	int	i;
 

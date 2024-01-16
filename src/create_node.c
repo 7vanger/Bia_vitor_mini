@@ -54,7 +54,6 @@ t_token	*create_node(char *str, t_token *token, t_env *l_env)
 	char	*tmp;
 	int		i;
 
-	(void)l_env;
 	i = 0;
 	if (!str)
 		return (NULL);
@@ -71,4 +70,3 @@ t_token	*create_node(char *str, t_token *token, t_env *l_env)
 	free(obj);
 	return (rec);
 }
-

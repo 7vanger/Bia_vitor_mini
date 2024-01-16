@@ -21,7 +21,6 @@ void	add_section(t_token *token)
 	if (i == 0)
 		i = 1;
 	buff = ft_substr(token->id.tmp, 0, i);
-	printf("consigo aqui\n");
 	if (buff[0] == '/' && token->id.path[ft_strlen(token->id.path) - 1] == '/')
 	{
 		free(buff);
@@ -29,7 +28,6 @@ void	add_section(t_token *token)
 		return ;
 	}
 	token->id.path = paste_char(token->id.path, buff);
-	printf ("outra parte aqui id.path: %s\n", token->id.path);
 	while (i--)
 		token->id.tmp++;
 	if (buff != NULL)
@@ -61,12 +59,8 @@ int	execute_cd(t_id id, t_env *l_env)
 	char	*pwd;
 	char	*oldpwd;
 
-	(void)l_env;
 	if (chdir(id.path) == -1)
-	{
-		write(2, "minishell: No such file or directory\n", 38);
-		return (2);
-	}
+		return (write(2, "minishell: No such file or directory\n", 38) - 36);
 	pwd = ft_strjoin("OLDPWD=", l_env->pwd);
 	execute_export(pwd, l_env);
 	free(l_env->pwd);
@@ -78,9 +72,7 @@ int	execute_cd(t_id id, t_env *l_env)
 		free(oldpwd);
 	}
 	else
-	{
 		l_env->pwd = ft_strdup(id.path);
-	}
 	free(pwd);
 	pwd = ft_strjoin("PWD=", l_env->pwd);
 	execute_export(pwd, l_env);

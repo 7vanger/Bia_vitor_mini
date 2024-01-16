@@ -12,16 +12,29 @@
 
 #include "minishell.h"
 
+int	call_wait(t_env *l_env)
+{
+	int	i;
+	int	status;
+
+	i = 0;
+	status = 0;
+	while (i <= l_env->pipenum)
+	{
+		g_env.shell_state = SH_CHILD;
+		waitpid(0, &status, 0);
+		i++;
+	}
+	return (status);
+}
+
 int	exec_path(t_token *token, char *path, char **envp, t_env *l_env)
 {
 	pid_t	child;
 	int		status;
-	int		i;
 
-	(void)l_env;
 	status = 0;
 	child = fork();
-	i = 0;
 	if (child == 0)
 		exec_child(token, path, envp, l_env);
 	else if (child != 0 && token->index > 0)
@@ -29,17 +42,11 @@ int	exec_path(t_token *token, char *path, char **envp, t_env *l_env)
 		close(token->prev->fd[1]);
 		close(token->prev->fd[0]);
 	}
-	else if (child != 0 && token->index == l_env->pipenum && l_env->pipenum != 0)
+	else if (child != 0 && token->index == l_env->pipenum
+		&& l_env->pipenum != 0)
 		close(token->prev->fd[1]);
 	if (child != 0 && !token->next)
-	{
-		while (i <= l_env->pipenum)
-		{
-			g_env.shell_state = SH_CHILD;
-			waitpid(0, &status, 0);
-			i++;
-		}
-	}
+		status = call_wait(l_env);
 	if (token->id.in != STDIN_FILENO)
 		close(token->id.in);
 	if (token->id.out != STDOUT_FILENO)
@@ -71,4 +78,4 @@ int	pipers(t_token *process, char **envp, t_env *l_env)
 	else
 		wait(0);
 	return (g_env.retval = r);
-}	
+}
