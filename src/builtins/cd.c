@@ -73,10 +73,14 @@ int	execute_cd(t_id id)
 	{
 		oldpwd = ft_substr(id.path, 0, ft_strlen(id.path) - 1);
 		g_env.pwd = ft_strdup(oldpwd);
+		l_env.pwd = ft_strdup(oldpwd);
 		free(oldpwd);
 	}
 	else
+	{
 		g_env.pwd = ft_strdup(id.path);
+		l_env->pwd = ft_strdup(id.path);
+	}
 	free(pwd);
 	pwd = ft_strjoin("PWD=", g_env.pwd);
 	execute_export(pwd);

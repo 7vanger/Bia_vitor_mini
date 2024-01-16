@@ -12,17 +12,18 @@
 
 #include "minishell.h"
 
-int	exec_path(t_token *token, char *path, char **envp)
+int	exec_path(t_token *token, char *path, char **envp, t_env *l_env)
 {
 	pid_t	child;
 	int		status;
 	int		i;
 
+	(void)l_env;
 	status = 0;
 	child = fork();
 	i = 0;
 	if (child == 0)
-		exec_child(token, path, envp);
+		exec_child(token, path, envp, l_env);
 	else if (child != 0 && token->index > 0)
 	{
 		close(token->prev->fd[1]);
@@ -47,7 +48,7 @@ int	exec_path(t_token *token, char *path, char **envp)
 	return (status);
 }
 
-int	pipers(t_token *process, char **envp)
+int	pipers(t_token *process, char **envp, t_env *l_env)
 {
 	pid_t	parent;
 	int		r;
@@ -57,9 +58,9 @@ int	pipers(t_token *process, char **envp)
 	if (parent == 0)
 	{
 		if (process->next)
-			r = child_in(process, 0, envp);
+			r = child_in(process, 0, envp, l_env);
 		else if (!process->next)
-			r = pipe_out(process, 0, envp);
+			r = pipe_out(process, 0, envp, l_env);
 		exit(r);
 	}
 	else if (parent < 0)

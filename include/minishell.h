@@ -78,15 +78,15 @@ typedef struct s_env
 	pid_t		child;
 	enum state	shell_state;
 }				t_env; //data
-				       
+
 extern	t_env g_env;
 
-t_token	*init_process(t_var *var, t_token *process, char **envp);
+t_token	*init_process(t_var *var, t_token *process, char **envp, t_env *l_env);
 
 //prompt
-void	init_prompt(t_var *var, char **env);
+void	init_prompt(t_var *var, char **env, t_env *l_env);
 void	display_prompt(t_var *var);
-void	set_env(char **env);
+void	set_env(char **env, t_env *l_env);
 
 //utils
 void	free_buff(t_token *token);
@@ -113,7 +113,7 @@ void	direct_path(t_token *token);
 void	home_path(t_token *token);
 
 //builtins
-int	builtins(t_token *token, char **envp);
+int	builtins(t_token *token, char **envp, t_env *l_env);
 void	add_section(t_token *token);
 void	remove_section(t_token *token);
 int	execute_echo(t_id id);
@@ -156,18 +156,18 @@ char	*add_content(char *content, char *add, int pos, char *var);
 int	skip_single_quote(char *str, int i);
 
 //path and pipe
-int	execute_path(t_token *token, char **envp);
-int	exec_parent(t_token *token, char **envp);
-void	exec_child(t_token *token, char *path, char **envp);
-int	child_in(t_token *token, int i, char **envp);
-int	pipe_out(t_token *token, int i, char **envp);
+int	execute_path(t_token *token, char **envp, t_env *l_env);
+int	exec_parent(t_token *token, char **envp, t_env *l_env);
+void	exec_child(t_token *token, char *path, char **envp, t_env *l_env);
+int	child_in(t_token *token, int i, char **envp, t_env *l_env);
+int	pipe_out(t_token *token, int i, char **envp, t_env *l_env);
 char	**separate_token(t_id *id);
 t_count	init_count(void);
-int	get_path(t_id *id, t_token *token, char **envp);
+int	get_path(t_id *id, t_token *token, char **envp, t_env *l_env);
 char	*get_cmd(char **str, t_id *id);
 int	path_finder(void);
-int	exec_path(t_token *token, char *path, char **envp);
-int	pipers(t_token *process, char **envp);
+int	exec_path(t_token *token, char *path, char **envp, t_env *l_env);
+int	pipers(t_token *process, char **envp, t_env *l_env);
 
 //heredoc
 int	input_token(int i, t_token *token);

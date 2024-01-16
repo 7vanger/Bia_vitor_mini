@@ -78,7 +78,7 @@ char	**env_unset(char *str)
 	return (var);
 }
 
-int	execute_unset(char *str)
+int	execute_unset(char *str, t_env *l_env)
 {
 	char	**var;
 	int		i;
@@ -94,6 +94,7 @@ int	execute_unset(char *str)
 			if (ft_strncmp(var[i], g_env.env[j], ft_strlen(var[i])) == 0)
 			{
 				g_env.env = env_unset(var[i]);
+				l_env->env = env_unset(var[i]);
 				break ;
 			}
 			j++;

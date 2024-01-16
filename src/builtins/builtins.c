@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	builtins(t_token *token, char **envp)
+int	builtins(t_token *token, char **envp, t_env *l_env)
 {
 	int		i;
 
@@ -34,7 +34,7 @@ int	builtins(t_token *token, char **envp)
 	else if (ft_strncmp(token->id.built, "exit", 5) == 0)
 		return (execute_exit(token, token->id.print));
 	else
-		i = execute_path(token, envp);
+		i = execute_path(token, envp, l_env);
 	if (token->err == 0)
 		free_buff(token);
 	return (g_env.retval = ft_msg(i));

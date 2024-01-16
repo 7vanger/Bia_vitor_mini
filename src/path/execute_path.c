@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	execute_path(t_token *token, char **envp)
+int	execute_path(t_token *token, char **envp, t_env *l_env)
 {
 	if (token->id.in == -1 || token->id.out == -1)
 		return (2);
@@ -22,13 +22,13 @@ int	execute_path(t_token *token, char **envp)
 	{
 		if (access(token->id.built, F_OK) != 0)
 			return (5);
-		return (exec_parent(token, envp));
+		return (exec_parent(token, envp, l_env));
 	}
 	else
-		return (get_path(&token->id, token, envp));
+		return (get_path(&token->id, token, envp, l_env));
 }
 
-int	exec_parent(t_token *token, char **envp)
+int	exec_parent(t_token *token, char **envp, t_env *l_env)
 {
 	pid_t	child;
 	int		status;
@@ -36,7 +36,7 @@ int	exec_parent(t_token *token, char **envp)
 	status = 0;
 	child = fork();
 	if (child == 0)
-		exec_child(token, NULL, envp);
+		exec_child(token, NULL, envp, l_env);
 	else if (child < 0)
 	{
 		perror("fork");
@@ -56,7 +56,7 @@ int	exec_parent(t_token *token, char **envp)
 	return (errno);
 }
 
-void	exec_child(t_token *token, char *path, char **envp)
+void	exec_child(t_token *token, char *path, char **envp, t_env *l_env)
 {
 	char	**tmp;
 
@@ -65,9 +65,9 @@ void	exec_child(t_token *token, char *path, char **envp)
 	tmp = separate_token(&token->id);
 	if (token->index >= 0 && token->index != g_env.pipenum
 		&& g_env.pipenum != 0)
-		child_in(token, 1, envp);
+		child_in(token, 1, envp, l_env);
 	else if (token->index == g_env.pipenum && g_env.pipenum > 0)
-		pipe_out(token, 1, envp);
+		pipe_out(token, 1, envp, l_env);
 	if (token->id.out != STDOUT_FILENO)
 	{
 		dup2(token->id.out, STDOUT_FILENO);
@@ -85,7 +85,7 @@ void	exec_child(t_token *token, char *path, char **envp)
 		exit(errno);
 }
 
-int	child_in(t_token *token, int i, char **envp)
+int	child_in(t_token *token, int i, char **envp, t_env *l_env)
 {
 	if (token->index == 0)
 	{
@@ -108,12 +108,12 @@ int	child_in(t_token *token, int i, char **envp)
 	if (i == 1)
 		return (0);
 	else if (i == 0)
-		return (builtins(token, envp));
+		return (builtins(token, envp, l_env));
 	else
 		return (errno);
 }
 
-int	pipe_out(t_token *token, int i, char **envp)
+int	pipe_out(t_token *token, int i, char **envp, t_env *l_env)
 {
 	close(token->prev->fd[1]);
 	dup2(token->prev->fd[0], STDIN_FILENO);
@@ -123,7 +123,7 @@ int	pipe_out(t_token *token, int i, char **envp)
 	if (i == 1)
 		return (0);
 	else if (i == 0)
-		return (builtins(token, envp));
+		return (builtins(token, envp, l_env));
 	else
 		return (errno);
 }

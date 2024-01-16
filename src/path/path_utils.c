@@ -86,7 +86,7 @@ char	**separate_token(t_id *id)
 	return (buff);
 }
 
-int	get_path(t_id *id, t_token *token, char **envp)
+int	get_path(t_id *id, t_token *token, char **envp, t_env *l_env)
 {
 	int		i;
 	char	**buff;
@@ -105,5 +105,5 @@ int	get_path(t_id *id, t_token *token, char **envp)
 	if (tmp == NULL)
 		return (5);
 	else
-		return (exec_path(token, tmp, envp));
+		return (exec_path(token, tmp, envp, l_env));
 }

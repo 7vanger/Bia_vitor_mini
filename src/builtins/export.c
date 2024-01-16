@@ -102,9 +102,15 @@ int	execute_export(char *str)
 		while (g_env.env[i] && export_comp(var[j], g_env.env[i]) != 0)
 			i++;
 		if (g_env.env[i] == NULL)
+		{
 			g_env.env = export_env(var[j]);
+			l_env.env = export_env(var[j]);
+		}
 		else
+		{
 			g_env.env[i] = new_env(var[j], i);
+			l_env.env[i] = new_env(var[j], i);
+		}
 		j++;
 	}
 	free_pointers(var);
