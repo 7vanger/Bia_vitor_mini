@@ -67,6 +67,7 @@ void	if_builtin(int i, t_token *token)
 
 	token->input = cut_space(token->input);
 	i = delimeter_token(i, token->input);
+	printf("E: %s (%d)\n", token->input, i);//TESTE
 	str = ft_substr(token->input, 0, i);
 	if (ft_strncmp(str, "ECHO", 5) == 0)
 		str = ft_ulstr(str);

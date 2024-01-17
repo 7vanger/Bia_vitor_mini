@@ -16,7 +16,6 @@ int	path_finder(t_env *l_env)
 {
 	int	i;
 
-	(void)l_env;
 	i = 0;
 	while (l_env->env[i] != NULL && ft_strncmp(l_env->env[i], "PATH=", 5) != 0)
 		i++;

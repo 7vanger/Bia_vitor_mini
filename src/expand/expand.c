@@ -126,9 +126,10 @@ char	*expand(char *str, int i, t_env *l_env)
 				break ;
 			if (str[i] == '$' && str[i + 1] == 34)
 				break ;
+			
 			str = find_expand(str, i, l_env);
 		}
-		if (str[i] == 39)
+		if (str[i] == 39 && str[i-1] != 34)
 		{
 			i = skip_single_quote(str, i);
 			if (str[i] == '\0')
