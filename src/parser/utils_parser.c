@@ -78,7 +78,7 @@ void	handle_quote(t_token *token, int i)
 	c = token->input[0];
 	token->input++;
 	i = cut_until_char(token->input, c);
-	if (i == 0)
+	if (i == 0 && token->input[0] != '\0')
 	{
 		token->input++;
 		return ;
@@ -92,8 +92,8 @@ void	handle_quote(t_token *token, int i)
 			token->id.print = paste_char(token->id.print, tmp);
 		free(tmp);
 	}
-	else
+	else if (token->input[0] != '\0')
 		token->id.print = ft_calloc(1, sizeof(char));
-	while (i-- + 1)
+	while (i-- + 1 && token->input[0] != '\0')
 		token->input++;
 }

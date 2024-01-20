@@ -18,7 +18,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t	i;
 	size_t	s_len;
 
-	printf ("s: %s, start: %d, lne: %ld\n", s, start, len);
 	if (!s)
 		return (NULL);
 	s_len = 0;

@@ -75,11 +75,13 @@ char	*sub_trim(int i, t_token *token)
 	int		j;
 
 	j = cut_until_char(token->input, i);
+	printf("-> hhhhh\n"); //TESTE
 	tmp = ft_substr(token->input, 0, j);
 	if (j > delimeter_token(i, tmp))
 	{
 		j = delimeter_token(i, tmp);
 		free(tmp);
+		printf("-> iiiiii\n"); //TESTE
 		tmp = ft_substr(token->input, 0, j);
 	}
 	tmp = cut_char(tmp, 34);
