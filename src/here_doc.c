@@ -63,7 +63,6 @@ int	here_doc(int i, t_token *token)
 	if (token->input[0] == '\0' || token->input[0] == '|')
 		return (token->err = 2);
 	str = NULL;
-	printf("-> fffff\n"); //TESTE
 	delim = ft_substr(token->input, 0, c);
 	if (ft_isprint(delim[0]) == 0)
 		return (2);
@@ -79,7 +78,6 @@ int	input_token(int i, t_token *token)
 	cut_1(0, token);
 	if (token_limit(token->input[0]) == 1 || token->input[0] == '\0')
 		return (token->err = 1);
-	printf("-> eeeeee\n"); //TESTE
 	tmp = ft_substr(token->input, 0, count_until_char(token->input, i));
 	tmp = cut_char(tmp, 39);
 	tmp = cut_char(tmp, 34);
