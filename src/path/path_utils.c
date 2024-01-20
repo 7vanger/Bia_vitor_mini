@@ -92,6 +92,11 @@ int	get_path(t_id *id, t_token *token, char **envp, t_env *l_env)
 	char	**buff;
 	char	*tmp;
 
+	if (ft_strncmp(id->built, "./", 2) == 0)
+	{
+		token->err = 6;
+		return (exec_path(token, id->built, envp, l_env));
+	}
 	i = path_finder(l_env);
 	if (i == errno)
 		return (errno);
